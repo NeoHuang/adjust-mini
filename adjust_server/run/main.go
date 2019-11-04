@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/neohuang/adjust-mini/adjust_server"
+	"github.com/NeoHuang/adjust-mini/adjust_server"
 )
 
 func main() {

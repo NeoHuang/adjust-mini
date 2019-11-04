@@ -8,6 +8,7 @@ ARG backend_target
 
 RUN cd ${backend_target}/run
 
+WORKDIR /app/${backend_target}/run
 RUN go build -o ${backend_target}
 EXPOSE 80
 
