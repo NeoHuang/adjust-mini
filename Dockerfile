@@ -6,10 +6,9 @@ WORKDIR /app
 COPY . .
 ARG backend_target
 
-RUN cd ${backend_target}/run
-
 WORKDIR /app/${backend_target}/run
-RUN go build -o ${backend_target}
+RUN go build -o main .
+
 EXPOSE 80
 
-CMD ./${backend_target}
+CMD ["./main"]
