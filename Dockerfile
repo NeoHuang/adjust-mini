@@ -6,6 +6,7 @@ FROM golang:1.13
 WORKDIR /app
 COPY . .
 ARG backend_target
+ARG version
 
 WORKDIR /app/${backend_target}/run
 ENV VERSION=${version}
