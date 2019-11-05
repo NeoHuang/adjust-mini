@@ -1,4 +1,5 @@
 ARG backend_target=adjust_server
+ARG version=unknown
 
 FROM golang:1.13
 
@@ -7,7 +8,8 @@ COPY . .
 ARG backend_target
 
 WORKDIR /app/${backend_target}/run
-RUN go build -o main .
+ENV VERSION=${version}
+RUN go build --ldflags "-X main.Version=${VERSION}" -o main .
 
 EXPOSE 80
 

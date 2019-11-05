@@ -9,10 +9,13 @@ import (
 )
 
 type AdjustServer struct {
+	Version string
 }
 
-func New() *AdjustServer {
-	server := &AdjustServer{}
+func New(version string) *AdjustServer {
+	server := &AdjustServer{
+		Version: version,
+	}
 	return server
 }
 
@@ -27,8 +30,7 @@ func (server *AdjustServer) ServeMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.Handle("/metrics", promhttp.Handler())
 	mux.Handle("/heartbeat", handlers.NewHeartbeatHandler())
-
-	// mux.Handle("/heartbeat.gif", heartbeatHandler)
+	mux.Handle("/version", handlers.NewVersionHandler(server.Version))
 
 	return mux
 }
