@@ -2,7 +2,7 @@ VERSION = $(shell git rev-parse --short HEAD)
 DEPLOY_SERVICE = $(subst _,-,$(service))
 
 .PHONY: all
-all: build tag push deploy
+all: build tag push upgrade
 
 .PHONY: build
 build:
@@ -24,6 +24,17 @@ deploy:
 	@printf "\033[32mDeploy $(service) to k8s cluster\n\033[0m"
 	kubectl set image deployment $(DEPLOY_SERVICE)-deployment $(DEPLOY_SERVICE)=neohuang/$(service):$(VERSION)
 	@kubectl rollout status deployment $(DEPLOY_SERVICE)-deployment
+
+.PHONY: install
+install:
+	@printf "\033[32mDeploy $(service) to k8s cluster via helm\n\033[0m"
+	helm install --name $(DEPLOY_SERVICE) ./$(service)/$(service)-helm/ --set image.repository=neohuang/$(service),image.tag=$(VERSION)
+
+
+.PHONY: upgrade
+upgrade:
+	@printf "\033[32mDeploy $(service) to k8s cluster via helm\n\033[0m"
+	helm upgrade $(DEPLOY_SERVICE) ./$(service)/$(service)-helm/ --set image.repository=neohuang/$(service),image.tag=$(VERSION)
 
 .PHONY: restart
 restart:

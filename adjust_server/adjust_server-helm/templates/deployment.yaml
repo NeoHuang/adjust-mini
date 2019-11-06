@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adjust-server-deployment
+  labels:
+    app: adjust-server
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: adjust-server
+  template:
+    metadata:
+      labels:
+        app: adjust-server
+    spec:
+      containers:
+      - name: adjust-server
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 80
