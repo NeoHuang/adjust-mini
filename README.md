@@ -21,5 +21,10 @@ https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd2
 
 ## Challenges for us
 
+- Networking
+- Stateful services
+- Monitoring
+- Migration
+
 
 
