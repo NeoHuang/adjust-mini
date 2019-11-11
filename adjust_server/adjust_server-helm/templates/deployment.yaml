@@ -28,3 +28,12 @@ spec:
               value: Awesome
           initialDelaySeconds: 5
           periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /heartbeat
+            port: 80
+            httpHeaders:
+            - name: Custom-Header
+              value: Awesome
+          initialDelaySeconds: 5
+          periodSeconds: 3
