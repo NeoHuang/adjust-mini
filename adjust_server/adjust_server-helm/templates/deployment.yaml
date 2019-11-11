@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: adjust-server
-  minReadySeconds: 30
+  minReadySeconds: 5
   template:
     metadata:
       labels:
