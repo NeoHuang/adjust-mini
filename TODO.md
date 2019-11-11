@@ -1,5 +1,5 @@
 todo
-- helm restart
+- helm restart (no need)
 - rolling update readness liveness check
 - add prometheus
 - add kafka, aero, redis, psql

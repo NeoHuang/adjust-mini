@@ -19,3 +19,12 @@ spec:
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         ports:
         - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /heartbeat
+            port: 80
+            httpHeaders:
+            - name: Custom-Header
+              value: Awesome
+          initialDelaySeconds: 5
+          periodSeconds: 3
