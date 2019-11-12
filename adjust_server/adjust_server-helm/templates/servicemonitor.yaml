@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: adjust-server-servicemonitor
+  labels:
+    team: backend
+spec:
+  selector:
+    matchLabels:
+      app: adjust-server
+  endpoints:
+  - port: web
