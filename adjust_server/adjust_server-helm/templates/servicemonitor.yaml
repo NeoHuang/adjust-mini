@@ -3,10 +3,13 @@ kind: ServiceMonitor
 metadata:
   name: adjust-server-servicemonitor
   labels:
-    team: backend
+    release: monitoring
 spec:
   selector:
     matchLabels:
       app: adjust-server
+  namespaceSelector:
+    matchNames:
+    - default
   endpoints:
   - port: web
