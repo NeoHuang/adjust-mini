@@ -1,7 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: adjust-server-service
+  name: adjust-server
+  labels:
+    app: adjust-server
 spec:
   selector:
     app: adjust-server
