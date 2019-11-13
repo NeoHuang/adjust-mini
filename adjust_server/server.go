@@ -5,7 +5,20 @@ import (
 	"net/http"
 
 	"github.com/NeoHuang/adjust-mini/handlers"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+)
+
+var (
+	httpRequestMetrics = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Namespace: "backend",
+		Subsystem: "adjust_server",
+		Name:      "http",
+		Help:      "http request metrics",
+	}, []string{
+		"activity",
+		"result",
+	})
 )
 
 type AdjustServer struct {
@@ -28,6 +41,8 @@ func (server *AdjustServer) Start() {
 		log.Panicf("don't panic.....")
 	}()
 
+	prometheus.MustRegister(httpRequestMetrics)
+
 	if err := http.ListenAndServe(":80", mux); err != nil {
 		log.Panicf("ADJUST SERVER SHUTTING DOWN (%s)\n\n", err)
 	}
@@ -41,6 +56,7 @@ func (server *AdjustServer) ServeMux() *http.ServeMux {
 	mux.HandleFunc("/panic", func(http.ResponseWriter, *http.Request) {
 		close(server.panicChan)
 	})
+	mux.Handle("/", NewClickHandler())
 
 	return mux
 }
