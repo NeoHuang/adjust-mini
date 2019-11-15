@@ -7,6 +7,7 @@
 - helm restart (no need)
 - rolling update readness liveness check
 - add prometheus
+- canary deployment
 
 # Notes
 curl in mac doesn't work well with the apiserver keys

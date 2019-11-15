@@ -18,6 +18,7 @@ var (
 	}, []string{
 		"activity",
 		"result",
+		"error",
 	})
 )
 

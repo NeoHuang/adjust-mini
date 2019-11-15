@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: adjust-server
-  minReadySeconds: 5
+  minReadySeconds: 1
   template:
     metadata:
       labels:
@@ -32,7 +32,7 @@ spec:
             httpHeaders:
             - name: Custom-Header
               value: Awesome
-          initialDelaySeconds: 5
+          initialDelaySeconds: 3
           periodSeconds: 3
         readinessProbe:
           httpGet:
@@ -41,5 +41,5 @@ spec:
             httpHeaders:
             - name: Custom-Header
               value: Awesome
-          initialDelaySeconds: 5
+          initialDelaySeconds: 1
           periodSeconds: 3
