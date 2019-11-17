@@ -77,6 +77,7 @@ func (producer *SaramaAsyncProducer) Produce(topic string, key []byte, message [
 	successLabel["service"] = producer.service
 	successLabel["topic"] = topic
 	KafkaMetrics.With(successLabel).Inc()
+	log.Printf("msg produce to topic %s", topic)
 }
 
 func (producer *SaramaAsyncProducer) consumeResponses() {
@@ -99,6 +100,7 @@ func (producer *SaramaAsyncProducer) consumeResponses() {
 			failedLabel["service"] = producer.service
 			failedLabel["topic"] = err.Msg.Topic
 			KafkaMetrics.With(failedLabel).Inc()
+			log.Printf("failed to produce to kafka:%s", err)
 		}
 	}()
 }
