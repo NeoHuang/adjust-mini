@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  zookeeper:
+    image: 'wurstmeister/zookeeper'
+    ports:
+      - '2181:2181'
+    networks:
+      - kafka_default
+
+  kafka_0:
+    image: 'wurstmeister/kafka:2.11-0.10.2.2'
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    networks:
+      - kafka_default
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # See
+      # - https://rmoff.net/2018/08/02/kafka-listeners-explained/
+      # - https://github.com/wurstmeister/kafka-docker/wiki/Connectivity
+      KAFKA_LISTENERS: INTERNAL://kafka_0:29092,EXTERNAL://:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka_0:29092,EXTERNAL://192.168.31.32:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+
+  kafka_1:
+    image: 'wurstmeister/kafka:2.11-0.10.2.2'
+    depends_on:
+      - zookeeper
+    ports:
+      - '9093:9093'
+    networks:
+      - kafka_default
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # See
+      # - https://rmoff.net/2018/08/02/kafka-listeners-explained/
+      # - https://github.com/wurstmeister/kafka-docker/wiki/Connectivity
+      KAFKA_LISTENERS: INTERNAL://kafka_1:29092,EXTERNAL://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka_1:29092,EXTERNAL://192.168.31.32:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+
+networks:
+  kafka_default:
