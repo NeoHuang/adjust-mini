@@ -35,6 +35,7 @@ install:
 upgrade:
 	@printf "\033[32mDeploy $(service) to k8s cluster via helm\n\033[0m"
 	helm upgrade $(DEPLOY_SERVICE) ./$(service)/$(service)-helm/ --set image.repository=neohuang/$(service),image.tag=$(VERSION)
+	@kubectl rollout status deployment $(DEPLOY_SERVICE)-deployment
 
 .PHONY: restart
 restart:
