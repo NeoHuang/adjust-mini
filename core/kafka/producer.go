@@ -30,7 +30,6 @@ var (
 	kafkaProducerSuccessLabels = prometheus.Labels{
 		"action": "produce",
 		"result": "successful",
-		"error":  "",
 	}
 	kafkaProducerFailedLabels = prometheus.Labels{
 		"action": "produce",
