@@ -7,7 +7,7 @@ type Click struct {
 	CreatedAt time.Time
 }
 
-func NewClick(tracker string) {
+func NewClick(tracker string) *Click {
 	return &Click{
 		Tracker:   tracker,
 		CreatedAt: time.Now(),

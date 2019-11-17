@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/NeoHuang/adjust-mini/core/kafka"
 	"github.com/NeoHuang/adjust-mini/handlers"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -43,6 +44,7 @@ func (server *AdjustServer) Start() {
 	}()
 
 	prometheus.MustRegister(httpRequestMetrics)
+	prometheus.MustRegister(kafka.KafkaMetrics)
 
 	if err := http.ListenAndServe(":80", mux); err != nil {
 		log.Panicf("ADJUST SERVER SHUTTING DOWN (%s)\n\n", err)
