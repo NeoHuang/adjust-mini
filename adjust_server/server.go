@@ -46,6 +46,8 @@ func (server *AdjustServer) Start() {
 	prometheus.MustRegister(httpRequestMetrics)
 	prometheus.MustRegister(kafka.KafkaMetrics)
 
+	log.Printf("Adjust server started....")
+
 	if err := http.ListenAndServe(":80", mux); err != nil {
 		log.Panicf("ADJUST SERVER SHUTTING DOWN (%s)\n\n", err)
 	}

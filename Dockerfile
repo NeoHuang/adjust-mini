@@ -10,7 +10,7 @@ ARG version
 
 WORKDIR /app/${backend_target}/run
 ENV VERSION=${version}
-RUN CGO_ENABLED=0 GOOS=linux go build --ldflags "-X main.Version=${VERSION}" -o main .
+RUN CGO_ENABLED=0 go build --ldflags "-X main.Version=${VERSION}" -o main .
 
 
 
@@ -29,5 +29,5 @@ COPY --from=builder /app/${backend_target}/run/main .
 EXPOSE 80
 
 # Command to run the executable
-CMD ["./main"]
+ENTRYPOINT ["./main"]
 

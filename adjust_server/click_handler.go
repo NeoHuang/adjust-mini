@@ -36,7 +36,7 @@ func NewClickHandler() *ClickHandler {
 	producerConfig.Version = sarama.V0_10_2_0
 	producerConfig.Producer.Return.Successes = true
 	producerConfig.Producer.RequiredAcks = sarama.WaitForLocal
-	producer, err := kafka.NewDefaultSaramaAsyncProducer([]string{"192.168.31.32:9092"}, producerConfig, "adjust-server")
+	producer, err := kafka.NewDefaultSaramaAsyncProducer([]string{"192.168.2.1:9092"}, producerConfig, "adjust-server")
 
 	if err != nil {
 		log.Panicf("failed to create kafka producer:%s", err)
