@@ -35,10 +35,9 @@ install:
 upgrade:
 	@printf "\033[32mDeploy $(service) to k8s cluster via helm\n\033[0m"
 	helm upgrade $(DEPLOY_SERVICE) ./$(service)/helm/ --set image.repository=neohuang/$(service),image.tag=$(VERSION)
-	@kubectl rollout status deployment $(DEPLOY_SERVICE)-deployment
 
 .PHONY: restart
-restart:
+restart-deploy:
 	@printf "\033[32mRolling restart $(service)\n\033[0m"
 	@kubectl patch deployment $(DEPLOY_SERVICE)-deployment -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
 	@kubectl rollout status deployment $(DEPLOY_SERVICE)-deployment

@@ -15,12 +15,13 @@ func main() {
 	podName := os.Getenv("MY_POD_NAME")
 	log.Println("MY_POD_NAME:", podName)
 	fileName := "/collected/" + podName + ".json"
-	f, err := os.Create(fileName)
+	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Panicf("Failed to open file %q, err:%s", fileName, err)
 	}
+	defer f.Close()
 	now := time.Now().Format("2006-01-02T15:04:05.000Z") + "\n"
-	f.Write([]byte(now))
+	f.Write([]byte("Started at " + now))
 	server := &MetricsServer{}
 	server.Start()
 }
