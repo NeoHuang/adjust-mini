@@ -102,7 +102,6 @@ func (consumer *ClusterConsumer) ConsumeClaim(session sarama.ConsumerGroupSessio
 func (consumer *ClusterConsumer) IncMetrics(labels prometheus.Labels) {
 	newLabels := metrics.CopyLabels(labels)
 	newLabels["service"] = consumer.service
-	log.Println("XXXXX ", consumer.topic)
 	newLabels["topic"] = consumer.topic
 	KafkaMetrics.With(newLabels).Inc()
 }

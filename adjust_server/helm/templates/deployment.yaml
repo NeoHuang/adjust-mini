@@ -25,6 +25,12 @@ spec:
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         ports:
         - containerPort: 80
+        env:
+        - name: KAFKA_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: adjust-server-config
+              key: KAFKA_HOST
         livenessProbe:
           httpGet:
             path: /heartbeat

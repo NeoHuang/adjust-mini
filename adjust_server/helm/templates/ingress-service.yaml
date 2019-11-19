@@ -12,3 +12,9 @@ spec:
           - backend:
               serviceName: adjust-server
               servicePort: 80
+    - host: csv-collector.local
+      http:
+        paths:
+          - backend:
+              serviceName: csv-collector
+              servicePort: 80

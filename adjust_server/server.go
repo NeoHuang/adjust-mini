@@ -3,9 +3,11 @@ package adjust_server
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/NeoHuang/adjust-mini/core/kafka"
 	"github.com/NeoHuang/adjust-mini/handlers"
+	"github.com/Shopify/sarama"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -61,7 +63,19 @@ func (server *AdjustServer) ServeMux() *http.ServeMux {
 	mux.HandleFunc("/panic", func(http.ResponseWriter, *http.Request) {
 		close(server.panicChan)
 	})
-	mux.Handle("/", NewClickHandler())
+
+	producerConfig := sarama.NewConfig()
+	producerConfig.Version = sarama.V0_10_2_0
+	producerConfig.Producer.Return.Successes = true
+	producerConfig.Producer.RequiredAcks = sarama.WaitForLocal
+
+	kafkaHost := os.Getenv("KAFKA_HOST")
+	producer, err := kafka.NewDefaultSaramaAsyncProducer([]string{kafkaHost}, producerConfig, "adjust-server")
+
+	if err != nil {
+		log.Panicf("failed to create kafka producer with host %s:%s", kafkaHost, err)
+	}
+	mux.Handle("/", NewClickHandler(producer))
 
 	return mux
 }
