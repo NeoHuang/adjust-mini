@@ -6,35 +6,6 @@ import (
 	"github.com/NeoHuang/adjust-mini/core/metrics"
 
 	"github.com/Shopify/sarama"
-	"github.com/prometheus/client_golang/prometheus"
-)
-
-var (
-	KafkaMetrics = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: "backend",
-		Subsystem: "core",
-		Name:      "kafka",
-		Help:      "kafka package metrics",
-	}, []string{
-		"service",
-		"action",
-		"topic",
-		"result",
-	})
-
-	kafkaProducerCalledLabels = prometheus.Labels{
-		"action": "called",
-		"result": "successful",
-	}
-
-	kafkaProducerSuccessLabels = prometheus.Labels{
-		"action": "produce",
-		"result": "successful",
-	}
-	kafkaProducerFailedLabels = prometheus.Labels{
-		"action": "produce",
-		"result": "failed",
-	}
 )
 
 type SaramaAsyncProducer struct {
