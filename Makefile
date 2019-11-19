@@ -37,8 +37,14 @@ upgrade:
 	helm upgrade $(DEPLOY_SERVICE) ./$(service)/helm/ --set image.repository=neohuang/$(service),image.tag=$(VERSION)
 
 .PHONY: restart
-restart-deploy:
+restart:
 	@printf "\033[32mRolling restart $(service)\n\033[0m"
 	@kubectl patch deployment $(DEPLOY_SERVICE)-deployment -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
 	@kubectl rollout status deployment $(DEPLOY_SERVICE)-deployment
+
+.PHONY: restart_stateful
+restart_stateful:
+	@printf "\033[32mRolling restart $(service)\n\033[0m"
+	@kubectl patch statefulset $(DEPLOY_SERVICE) -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+	@kubectl rollout status statefulset $(DEPLOY_SERVICE)
 
