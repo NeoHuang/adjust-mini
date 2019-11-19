@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: csv-collector-servicemonitor
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: csv-collector
+  namespaceSelector:
+    matchNames:
+    - default
+  endpoints:
+  - port: web

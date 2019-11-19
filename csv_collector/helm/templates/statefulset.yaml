@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csv-collector
+  labels:
+    app: csv-collector
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: csv-collector
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: csv-collector
+spec:
+  serviceName: "nginx"
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: csv-collector
+  template:
+    metadata:
+      labels:
+        app: csv-collector
+    spec:
+      containers:
+      - name: csv-collector
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: collected
+          mountPath: /collected
+        env:
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+  volumeClaimTemplates:
+  - metadata:
+      name: collected
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
