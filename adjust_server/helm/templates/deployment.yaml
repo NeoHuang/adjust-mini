@@ -31,6 +31,10 @@ spec:
             configMapKeyRef:
               name: adjust-server-config
               key: KAFKA_HOST
+        - name: POD_NAME
+          valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
         livenessProbe:
           httpGet:
             path: /heartbeat
